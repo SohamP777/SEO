@@ -1,26 +1,25 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
-  plugins: [
-    react(),
-    visualizer({
-      open: true,
-      gzipSize: true,
-      brotliSize: true,
-    }),
-  ],
+  plugins: [react()],
+  base: '/',
   build: {
+    outDir: 'dist',
+    sourcemap: false,
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         manualChunks: {
-          react: ['react', 'react-dom', 'react-router-dom'],
+          react: ['react', 'react-dom'],
           charts: ['chart.js', 'react-chartjs-2', 'recharts'],
-          auth: ['axios', 'jwt-decode'],
-        },
-      },
-    },
+          ui: ['framer-motion', 'react-icons']
+        }
+      }
+    }
   },
+  server: {
+    port: 3000,
+    open: true
+  }
 })
